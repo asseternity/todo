@@ -1,0 +1,42 @@
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+#container {
+    display: grid;
+    grid-template-columns: 80px auto;
+    grid-template-rows: 80px auto;
+    min-height: 100%;
+}
+
+header {
+    background-color: red;
+    grid-column: 1 / 3;
+    grid-row: 1;
+}
+
+nav {
+    background-color: blue;
+    grid-column: 1;
+    grid-row: 2;
+}
+
+#tasksWindow {
+    background-color: green;
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.projectRow {
+    width: 100%;
+    background-color: grey;
+}
+
+.taskRow {
+    width: 100%;
+    background-color: lightgrey;
+}
