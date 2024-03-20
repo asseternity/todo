@@ -52,6 +52,7 @@ button {
 
 button:hover {
     background-color: var(--lightGrey);
+    border: 3px solid var(--lightGrey);
 }
 
 h1 {
@@ -158,4 +159,17 @@ nav {
 
 .tooltipParent:hover .tooltip {
     visibility: visible;
+}
+
+.mediumPriority {
+    color: orangered;
+}
+
+.highPriority {
+    font-weight: bold;
+    color: maroon;
+}
+
+.centered {
+    text-align: center;
 }

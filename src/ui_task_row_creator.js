@@ -6,6 +6,9 @@ let taskEditor = new TaskEditor();
 let taskCompleter = new TaskCompleter();
 let tooltipOperator = new TooltipOperator();
 
+// external libraries
+import { format, differenceInDays } from "date-fns";
+
 export default class TaskRowCreator {
     makeTaskRow(task, project) {
         // Find the correct project row
@@ -21,11 +24,16 @@ export default class TaskRowCreator {
         let taskRowDueDate = document.createElement('td');
         let taskRowButtons = document.createElement('td');
 
+        // Centering
+        taskRowPriority.classList.add('centered');
+
         // Text contents of the elements
         taskRowPriority.textContent = task.priority;
         taskRowTitle.textContent = task.title;
         taskRowDescription.textContent = task.description;
         taskRowDueDate.textContent = task.dueDate;
+
+        // Date cell
 
         // Contents of taskRowButtons
         let editButton = document.createElement('button');

@@ -41,17 +41,24 @@ projectButton.addEventListener('click', projectButtonOperator.createNewProjectWi
     // column width
     // tool tips
     // host on pages
+    // inputs:
+                // inputs are in:
+                    // row_creator
+                    // task_editor
+                // input readers are in:
+                    // task_button_operator
+                    // task_editor
+        // revamp inputs of dueDate
+        // revamp inputs of priority
+        // priority --- different colors of taskRow depending on priority 
+        // center priority
+    // limit: max characters, special characters, task name not empty --- *THIS HAS TO BE HARDCODED WITH IFs BEFORE VALUES ARE SENT*
 
     // new tools:
-        // inputs: 
-            // revamp inputs of dueDate
-            // revamp inputs of priority
-            // priority --- different colors of taskRow depending on priority 
-            // you enter by when it is due, but what taskRow shows is --- *HOW MANY DAYS LEFT*
+        // date-fns: you enter by when it is due, but what taskRow shows is --- *HOW MANY DAYS LEFT*
         // persistency: using Web Storage API
 
     // easy old stuff:
-        // limit: max characters, special characters, task name not empty --- *THIS HAS TO BE HARDCODED WITH IFs BEFORE VALUES ARE SENT*
         // new project creation window
         // nav buttons --- only show completed / show all / only show high priority
         // responsive

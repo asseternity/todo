@@ -38,7 +38,9 @@ export default class RowCreator {
 
         // Contents of formRow
         let priorityInput = document.createElement('input');
-        priorityInput.setAttribute('type', 'text');
+        priorityInput.setAttribute('type', 'number');
+        priorityInput.setAttribute('min', 1);
+        priorityInput.setAttribute('max', 3);
         priorityInput.setAttribute('name', 'priorityInput');
         formRowPriority.appendChild(priorityInput);
         
@@ -53,7 +55,7 @@ export default class RowCreator {
         formRowDescription.appendChild(descriptionInput);
         
         let dueDateInput = document.createElement('input');
-        dueDateInput.setAttribute('type', 'text');
+        dueDateInput.setAttribute('type', 'date');
         dueDateInput.setAttribute('name', 'dueDateInput');
         formRowDueDate.appendChild(dueDateInput);
 
