@@ -6,39 +6,43 @@ let tooltipOperator = new TooltipOperator();
 
 export default class TaskEditor {
     editButtonOperator(task) {
-        let t_titleNoSpaces = task.title.replaceAll(' ', '_');
-        let taskRow = document.querySelector(`#task_${t_titleNoSpaces}`);
-        for (let i = 0; i < taskRow.children.length - 1; i++) {
-            let cellText = taskRow.children[i].textContent;
-            taskRow.children[i].textContent = '';
-            let inputBox = document.createElement('input');
-            inputBox.setAttribute('type', 'text');
-            switch (i) {
-                case 0:
-                    inputBox.setAttribute('name', 'priorityInput');
-                    break;
-                case 1:
-                    inputBox.setAttribute('name', 'titleInput');
-                    break;
-                case 2:
-                    inputBox.setAttribute('name', 'descriptionInput');
-                    break;
-                case 3:
-                    inputBox.setAttribute('name', 'dueDateInput');
-                    break;
+        if (task.isComplete == true) {
+            alert('Cannot edit a completed task.')
+        } else {
+            let t_titleNoSpaces = task.title.replaceAll(' ', '_');
+            let taskRow = document.querySelector(`#task_${t_titleNoSpaces}`);
+            for (let i = 0; i < taskRow.children.length - 1; i++) {
+                let cellText = taskRow.children[i].textContent;
+                taskRow.children[i].textContent = '';
+                let inputBox = document.createElement('input');
+                inputBox.setAttribute('type', 'text');
+                switch (i) {
+                    case 0:
+                        inputBox.setAttribute('name', 'priorityInput');
+                        break;
+                    case 1:
+                        inputBox.setAttribute('name', 'titleInput');
+                        break;
+                    case 2:
+                        inputBox.setAttribute('name', 'descriptionInput');
+                        break;
+                    case 3:
+                        inputBox.setAttribute('name', 'dueDateInput');
+                        break;
+                }
+                inputBox.value = cellText;
+                taskRow.children[i].appendChild(inputBox);
             }
-            inputBox.value = cellText;
-            taskRow.children[i].appendChild(inputBox);
+            // remove both buttons
+            while(taskRow.children[taskRow.children.length - 1].children.length !== 0) { taskRow.children[taskRow.children.length - 1].removeChild(taskRow.children[taskRow.children.length - 1].children[0]); }
+            // add a button that okays the changes
+            let acceptButton = document.createElement('input');
+            acceptButton.setAttribute('type', 'submit');
+            acceptButton.setAttribute('value', 'Accept Changes');
+            taskRow.children[taskRow.children.length - 1].appendChild(acceptButton);
+            // which calls acceptChangesOperator
+            acceptButton.addEventListener('click', () => this.acceptChangesOperator(task));
         }
-        // remove both buttons
-        while(taskRow.children[taskRow.children.length - 1].children.length !== 0) { taskRow.children[taskRow.children.length - 1].removeChild(taskRow.children[taskRow.children.length - 1].children[0]); }
-        // add a button that okays the changes
-        let acceptButton = document.createElement('input');
-        acceptButton.setAttribute('type', 'submit');
-        acceptButton.setAttribute('value', 'Accept Changes');
-        taskRow.children[taskRow.children.length - 1].appendChild(acceptButton);
-        // which calls acceptChangesOperator
-        acceptButton.addEventListener('click', () => this.acceptChangesOperator(task));
     }
     // acceptChangesOperator
     acceptChangesOperator(task) {

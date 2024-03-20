@@ -40,20 +40,25 @@ projectButton.addEventListener('click', projectButtonOperator.createNewProjectWi
     // no sliding when editing task
     // column width
     // tool tips
-
-    // remaining:
-    // limit: max characters, special characters, task name not empty
-    // DueDate: external date format library and replace my dueDate inputs
-    // new project creation window
     // host on pages
 
-    // priority --- not text but selection?
-    // nav buttons --- only show completed / show all / only show high priority
-    // persistency
-    // responsive
-    // block editing a task if it's completed -- remove edit button
-    // delete tasks
-    // delete projects (and all tasks thereof! --- finally call assigner when making tasks!)
-    // edit project
-    // sort by priority
-    // readme
+    // new tools:
+        // inputs: 
+            // revamp inputs of dueDate
+            // revamp inputs of priority
+            // priority --- different colors of taskRow depending on priority 
+            // you enter by when it is due, but what taskRow shows is --- *HOW MANY DAYS LEFT*
+        // persistency: using Web Storage API
+
+    // easy old stuff:
+        // limit: max characters, special characters, task name not empty --- *THIS HAS TO BE HARDCODED WITH IFs BEFORE VALUES ARE SENT*
+        // new project creation window
+        // nav buttons --- only show completed / show all / only show high priority
+        // responsive
+        // delete tasks
+        // delete projects (and all tasks thereof! --- *finally call assigner when making tasks!*)
+        // edit project
+        // sort by priority
+        // only view a single project
+        // expand a single todo to see/edit its details
+        // readme
