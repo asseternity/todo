@@ -1,9 +1,15 @@
 import TaskButtonOperator from "./ui_task_button_opr";
+import HeaderCreator from "./ui_header_creator";
+
 let taskButtonOperator = new TaskButtonOperator();
+let headerCreator = new HeaderCreator();
 
 export default class RowCreator {
     makeProjectRow(project) {
         let table = document.querySelector('table');
+        if (table.children.length == 0) {
+            headerCreator.makeHeaderCells();
+        }
         let projectRow = document.createElement('tr');
         let projectData = document.createElement('td');
         projectData.setAttribute('colspan', 5);
@@ -29,7 +35,6 @@ export default class RowCreator {
         // Give ID
         let titleNoSpaces = project.title.replaceAll(' ', '_');
         formRow.setAttribute('id', `form_${titleNoSpaces}`);
-        console.log(formRow.id);
 
         // Contents of formRow
         let priorityInput = document.createElement('input');
@@ -58,24 +63,12 @@ export default class RowCreator {
         submitInput.addEventListener('click', () => taskButtonOperator.createNewTaskWithinProject(project));
         formRowButtons.appendChild(submitInput);
 
-        // making columns
-        let col1 = document.createElement('td');
-        let col2 = document.createElement('td');
-        let col3 = document.createElement('td');
-        let col4 = document.createElement('td');
-        let col5 = document.createElement('td');
-
         // appending columns
-        formRow.appendChild(col1);
-        formRow.appendChild(col2);
-        formRow.appendChild(col3);
-        formRow.appendChild(col4);
-        formRow.appendChild(col5);
-        col1.appendChild(formRowPriority);
-        col2.appendChild(formRowTitle);
-        col3.appendChild(formRowDescription);
-        col4.appendChild(formRowDueDate);
-        col5.appendChild(formRowButtons);
+        formRow.appendChild(formRowPriority);
+        formRow.appendChild(formRowTitle);
+        formRow.appendChild(formRowDescription);
+        formRow.appendChild(formRowDueDate);
+        formRow.appendChild(formRowButtons);
 
         // Insert formRow after correct projectRow
         table.appendChild(formRow);

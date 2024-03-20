@@ -1,3 +1,11 @@
+import TaskEditor from './ui_task_editor';
+import TaskCompleter from './ui_task_completer';
+import TooltipOperator from './ui_tooltip_operator';
+
+let taskEditor = new TaskEditor();
+let taskCompleter = new TaskCompleter();
+let tooltipOperator = new TooltipOperator();
+
 export default class TaskRowCreator {
     makeTaskRow(task, project) {
         // Find the correct project row
@@ -22,8 +30,8 @@ export default class TaskRowCreator {
         // Contents of taskRowButtons
         let editButton = document.createElement('button');
         let completeButton = document.createElement('button');
-        editButton.textContent = 'Edit Task';
-        completeButton.textContent = 'Done!';
+        editButton.textContent = '✎';
+        completeButton.textContent = '✓';
         taskRowButtons.appendChild(editButton);
         taskRowButtons.appendChild(completeButton);
 
@@ -34,11 +42,21 @@ export default class TaskRowCreator {
         taskRow.appendChild(taskRowDueDate);
         taskRow.appendChild(taskRowButtons);
 
+        // Edit Tasks
+        editButton.addEventListener('click', () => taskEditor.editButtonOperator(task));
+
+        // Complete Tasks
+        completeButton.addEventListener('click', () => taskCompleter.completeTask(task));
+
         // Insert taskRow after correct projectRow
         projectRow.insertAdjacentElement('afterend', taskRow);
 
         // give ID for editing purposes
         let t_titleNoSpaces = task.title.replaceAll(' ', '_');
         taskRow.setAttribute(`id`, `task_${t_titleNoSpaces}`);
+
+        // Call tooltip makers
+        tooltipOperator.tooltipForEdit(task);
+        tooltipOperator.tooltipForComplete(task);
     }
 }

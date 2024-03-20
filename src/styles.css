@@ -1,6 +1,30 @@
+:root {
+    --mainBlue: #5C98C1;
+    --offWhite: #EFF0F4;
+    --lightGrey: #9F9293;
+    --darkGrey: #806C64;
+    --backgroundBlue: #2975A7;
+}
+
 html, body {
     margin: 0;
     height: 100%;
+    font-family: 'Graduate';
+}
+
+button {
+    font-family: 'Graduate';
+}
+
+input[type="submit"] {
+    font-family: 'Graduate';
+}
+
+@font-face {
+    font-family: 'Graduate';
+    src: url('./Graduate-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
 }
 
 #container {
@@ -11,19 +35,77 @@ html, body {
 }
 
 header {
-    background-color: red;
+    background-color: var(--backgroundBlue);
     grid-column: 1 / 3;
     grid-row: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+button {
+    background-color: var(--darkGrey);
+    border: 3px solid var(--darkGrey);
+    color: var(--offWhite);
+}
+
+button:hover {
+    background-color: var(--lightGrey);
+}
+
+h1 {
+    color: var(--offWhite);
+}
+
+table {
+    width: 100%;
+}
+
+tr {
+    height: 30px;
+}
+
+td:nth-child(1) {
+    width: 70px;
+}
+
+td:nth-child(2) {
+    width: 120px;
+}
+
+td:nth-child(4) {
+    width: 100px;
+}
+
+td:nth-child(5) {
+    width: 150px;
+}
+
+td button {
+    border: none;
+    background-color: transparent;
+    color: black;
+    height: 100%;   
+}
+
+td input {
+    width: 100%;
+    font-family: 'Graduate';
+}
+
+td button:hover {
+    background-color: var(--lightGrey);
 }
 
 nav {
-    background-color: blue;
+    background-color: var(--mainBlue);
     grid-column: 1;
     grid-row: 2;
 }
 
 #tasksWindow {
-    background-color: green;
+    background-color: var(--offWhite);
     grid-column: 2;
     grid-row: 2;
     display: flex;
@@ -33,10 +115,47 @@ nav {
 
 .projectRow {
     width: 100%;
-    background-color: grey;
+    background-color: var(--backgroundBlue);
+}
+
+.projectRow td {
+    padding: 5px;
 }
 
 .taskRow {
     width: 100%;
-    background-color: lightgrey;
+    background-color: var(--offWhite);
+    font-size: 80%;
+}
+
+.headerRow {
+    background-color: var(--lightGrey);
+}
+
+.headerRow td {
+    padding: 5px;
+}
+
+.completedTask {
+    background-color: var(--darkGrey);
+    text-decoration: line-through;
+}
+
+.tooltip {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0.8;
+    background-color: var(--darkGrey);
+    color: var(--offWhite);
+    border-radius: 6px;
+    padding: 5px 0;
+    z-index: 1;
+    width: 100px;
+    bottom: 90%;
+    left: 50%;
+    margin-left: -50px;
+}
+
+.tooltipParent:hover .tooltip {
+    visibility: visible;
 }
