@@ -7,7 +7,7 @@ let taskCompleter = new TaskCompleter();
 let tooltipOperator = new TooltipOperator();
 
 // external libraries
-import { format, differenceInDays } from "date-fns";
+import { differenceInDays } from "date-fns";
 
 export default class TaskRowCreator {
     makeTaskRow(task, project) {
@@ -27,13 +27,32 @@ export default class TaskRowCreator {
         // Centering
         taskRowPriority.classList.add('centered');
 
+        // Date cell
+            // 1) understand what format is task.dueDate in. is it a string? an object?
+            // answer: it's a string in the 'yyyy-mm-dd' format
+            // 2) transform that string into an object data fns can use in its calculations
+            // answer: from the documentation it looks like a string is fine
+            // 3) establish today
+        if (task.dueDate !== '' || task.dueDate !== null) {
+            task.daysLeft = differenceInDays(
+                task.dueDate,
+                new Date()
+            )    
+        }
+
         // Text contents of the elements
         taskRowPriority.textContent = task.priority;
         taskRowTitle.textContent = task.title;
         taskRowDescription.textContent = task.description;
-        taskRowDueDate.textContent = task.dueDate;
-
-        // Date cell
+        if (task.daysLeft > 0) {
+            taskRowDueDate.textContent = `To do in ${task.daysLeft} days`;
+        } else if (task.daysLeft < 0) {
+            taskRowDueDate.textContent = `${-task.daysLeft} days overdue`;
+        } else if (task.daysLeft == 0) {
+            taskRowDueDate.textContent = `Today`;
+        } else if (task.daysLeft == null) {
+            taskRowDueDate.textContent = ``;
+        }
 
         // Contents of taskRowButtons
         let editButton = document.createElement('button');
@@ -50,11 +69,16 @@ export default class TaskRowCreator {
         taskRow.appendChild(taskRowDueDate);
         taskRow.appendChild(taskRowButtons);
 
+        // Check if task is completed
+        if (task.isComplete) {
+            taskRow.classList.add('completedTask');
+        }
+
         // Edit Tasks
-        editButton.addEventListener('click', () => taskEditor.editButtonOperator(task));
+        editButton.addEventListener('click', () => taskEditor.editButtonOperator(task, project));
 
         // Complete Tasks
-        completeButton.addEventListener('click', () => taskCompleter.completeTask(task));
+        completeButton.addEventListener('click', () => taskCompleter.completeTask(task, project));
 
         // Insert taskRow after correct projectRow
         projectRow.insertAdjacentElement('afterend', taskRow);

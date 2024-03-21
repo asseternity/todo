@@ -2,8 +2,8 @@ import Task from './class_task';
 
 export default class TaskCreator
 {
-    newTask(title, description, dueDate, priority) {
-        return new Task(title, description, dueDate, priority)
+    newTask(title, description, dueDate, priority, partOfProject) {
+        return new Task(title, description, dueDate, priority, partOfProject)
     }
     editTask(task, newTitle, newDescription, newDueDate, newPriority) {
         task.title = newTitle;

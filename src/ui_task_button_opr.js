@@ -1,10 +1,12 @@
 import TaskCreator from "./sm_task_creator";
 import TaskRowCreator from "./ui_task_row_creator";
 import PriorityColorer from "./ui_priority_colorer";
+import Assigner from "./sm_task_assigner";
 
 let taskCreator = new TaskCreator();
 let taskRowCreator = new TaskRowCreator();
 let priorityColorer = new PriorityColorer();
+let assigner = new Assigner();
 
 export default class TaskButtonOperator {
     createNewTaskWithinProject(project) {
@@ -36,11 +38,25 @@ export default class TaskButtonOperator {
             formRow.querySelector(`input[name="dueDateInput"]`).value = '';
             
             // create task and display it
-            let task = taskCreator.newTask(title, description, dueDate, priority);
+            let correctProject = project.title;
+            let task = taskCreator.newTask(title, description, dueDate, priority, correctProject);
             taskRowCreator.makeTaskRow(task, project);
 
             // assign color to priority column
             priorityColorer.priorityClassAssigner(task);
+
+            // assign task to project
+            assigner.assignTask(project, task);
+
+            // localStorage
+            task.stringified = JSON.stringify(task);
+            let existingTasks;
+            if (localStorage.tasks) {
+                existingTasks = localStorage.tasks;
+                localStorage.tasks = existingTasks + '|' + task.stringified;
+            } else {
+                localStorage.tasks = task.stringified;
+            }
         }
     }
 }

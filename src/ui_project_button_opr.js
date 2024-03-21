@@ -10,5 +10,15 @@ export default class ProjectButtonOperator {
         let project = projectCreator.newProject(projectTitle);
         rowCreator.makeProjectRow(project);
         rowCreator.makeFormRow(project);
+
+        // localStorage
+        project.stringified = JSON.stringify(project);
+        let existingProjects;
+        if (localStorage.projects) {
+             existingProjects = localStorage.projects;
+             localStorage.projects = existingProjects + '|' + project.stringified;
+        } else {
+            localStorage.projects = project.stringified;
+        }
     }
 }

@@ -6,8 +6,11 @@ let taskCompleter = new TaskCompleter();
 let tooltipOperator = new TooltipOperator();
 let priorityColorer = new PriorityColorer();
 
+// external libraries
+import { differenceInDays } from "date-fns";
+
 export default class TaskEditor {
-    editButtonOperator(task) {
+    editButtonOperator(task, project) {
         if (task.isComplete == true) {
             alert('Cannot edit a completed task.')
         } else {
@@ -23,21 +26,24 @@ export default class TaskEditor {
                         inputBox.setAttribute('min', 1);
                         inputBox.setAttribute('max', 3);
                         inputBox.setAttribute('name', 'priorityInput');
+                        inputBox.value = cellText;
                         break;
                     case 1:
                         inputBox.setAttribute('type', 'text');
                         inputBox.setAttribute('name', 'titleInput');
+                        inputBox.value = cellText;
                         break;
                     case 2:
                         inputBox.setAttribute('type', 'text');
                         inputBox.setAttribute('name', 'descriptionInput');
+                        inputBox.value = cellText;
                         break;
                     case 3:
                         inputBox.setAttribute('type', 'date');
                         inputBox.setAttribute('name', 'dueDateInput');
+                        inputBox.value = task.dueDate;
                         break;
                 }
-                inputBox.value = cellText;
                 taskRow.children[i].appendChild(inputBox);
             }
             // remove both buttons
@@ -48,11 +54,11 @@ export default class TaskEditor {
             acceptButton.setAttribute('value', 'Accept Changes');
             taskRow.children[taskRow.children.length - 1].appendChild(acceptButton);
             // which calls acceptChangesOperator
-            acceptButton.addEventListener('click', () => this.acceptChangesOperator(task));
+            acceptButton.addEventListener('click', () => this.acceptChangesOperator(task, project));
         }
     }
     // acceptChangesOperator
-    acceptChangesOperator(task) {
+    acceptChangesOperator(task, project) {
         // triggers on changes being accepted
         let t_titleNoSpaces = task.title.replaceAll(' ', '_');
         let taskRow = document.querySelector(`#task_${t_titleNoSpaces}`);
@@ -74,33 +80,54 @@ export default class TaskEditor {
         else if (titleContainsSpecialCharacters) {
             alert('Task name may only contain letters, numbers and spaces.');
         } else {
-            // change task around
+            // change task data
             task.priority = priority;
             task.title = title;
             task.description = description;
             task.dueDate = dueDate;
 
-            // re-establish the taskRow
-            for (let i = 0; i < taskRow.children.length; i++) {
-                taskRow.children[i].removeChild(taskRow.children[i].children[0]);
+            // use date-fns to establish differenceInDays
+            if (task.dueDate !== '' || task.dueDate !== null) {
+                task.daysLeft = differenceInDays(
+                    task.dueDate,
+                    new Date()
+                )    
+            }    
+
+            // empty the cells
+            for (let i = 0; i < taskRow.children.length - 1; i++) {
+                while (taskRow.children[i].firstChild) { taskRow.children[i].removeChild(taskRow.children[i].firstChild) }
             }
+
+            // dueDate cell contents
+            if (task.daysLeft > 0) {
+                taskRow.children[3].textContent = `To do in ${task.daysLeft} days`;
+            } else if (task.daysLeft < 0) {
+                taskRow.children[3].textContent = `${-task.daysLeft} days overdue`;
+            } else if (task.daysLeft == 0) {
+                taskRow.children[3].textContent = `Today`;
+            } else if (task.daysLeft == null) {
+                taskRow.children[3].textContent = ``;
+            }
+    
+            // re-establish the taskRow
             taskRow.children[0].textContent = task.priority;
             taskRow.children[1].textContent = task.title;
             taskRow.children[2].textContent = task.description;
-            taskRow.children[3].textContent = task.dueDate;
             
             let new_t_titleNoSpaces = task.title.replaceAll(' ', '_');
             taskRow.id = `task_${new_t_titleNoSpaces}`;
-            this.buttonsAdder(task);
+            this.buttonsAdder(task, project);
 
             // assign color to priority column
             priorityColorer.priorityClassAssigner(task);
         }
     }
-    buttonsAdder(task) {
+    buttonsAdder(task, project) {
         let t_titleNoSpaces = task.title.replaceAll(' ', '_');
         let taskRow = document.querySelector(`#task_${t_titleNoSpaces}`);
         let buttonsCell = taskRow.children[taskRow.children.length - 1];
+        buttonsCell.removeChild(buttonsCell.firstChild);
 
         let editButton = document.createElement('button');
         let completeButton = document.createElement('button');
@@ -109,11 +136,34 @@ export default class TaskEditor {
         buttonsCell.appendChild(editButton);
         buttonsCell.appendChild(completeButton);
 
-        editButton.addEventListener('click', () => this.editButtonOperator(task));
-        completeButton.addEventListener('click', () => taskCompleter.completeTask(task));
+        editButton.addEventListener('click', () => this.editButtonOperator(task, project));
+        completeButton.addEventListener('click', () => taskCompleter.completeTask(task, project));
 
         // Call tooltip makers
         tooltipOperator.tooltipForEdit(task);
         tooltipOperator.tooltipForComplete(task);
+
+        // remove old task in localStorage
+        let localTasksArray = localStorage.tasks.split('|');
+        let oldTaskIndex;
+        for (let i = 0; i < localTasksArray.length; i++) {
+            let retrievedTaskObject = JSON.parse(localTasksArray[i]);
+            if (retrievedTaskObject.title == task.title) {
+                oldTaskIndex = i;
+                localTasksArray.splice(i, 1);
+                break;
+            }
+        }
+        localStorage.tasks = localTasksArray.join('|');
+
+        // insert task into localStorage
+        task.stringified = JSON.stringify(task);
+        let existingTasks;
+        if (localStorage.tasks) {
+            existingTasks = localStorage.tasks;
+            localStorage.tasks = existingTasks + '|' + task.stringified;
+        } else {
+            localStorage.tasks = task.stringified;
+        }
     }
 }
