@@ -72,13 +72,33 @@ export default class TaskEditor {
         // limits checking
         let specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
         let titleContainsSpecialCharacters = specialCharacters.test(title);
-        if (title == null || title == '') {
+        let pastTasks = localStorage.tasks;
+        let pastTasksArray = pastTasks ? pastTasks.split('|') : [];
+        let titleTaken = false;
+        let oldTitle = task.title;
+        for (let j = 0; j < pastTasksArray.length; j++) {
+            let retrievedTaskObject = JSON.parse(pastTasksArray[j]);
+            if (task.title == retrievedTaskObject.title) {
+                pastTasksArray.splice(j, 1)
+            }
+        }
+        for (let i = 0; i < pastTasksArray.length; i++) {
+            let retrievedTaskObject = JSON.parse(pastTasksArray[i]);
+            if (title == retrievedTaskObject.title) {
+                titleTaken = true;
+                }
+            }
+        if (titleTaken) {
+            alert('Cannot have two tasks with the same title.');
+        } else if (title == null || title == '') {
             alert('The new task must have a name.');
         } else if (priority == null || priority == '') {
             alert('Please assign a task priority.');
         }
         else if (titleContainsSpecialCharacters) {
             alert('Task name may only contain letters, numbers and spaces.');
+        } else if (priority < 1 || priority > 3) {
+            alert('Priority level must be set between 1 and 3.');
         } else {
             // change task data
             task.priority = priority;
@@ -117,13 +137,13 @@ export default class TaskEditor {
             
             let new_t_titleNoSpaces = task.title.replaceAll(' ', '_');
             taskRow.id = `task_${new_t_titleNoSpaces}`;
-            this.buttonsAdder(task, project);
+            this.buttonsAdder(task, project, oldTitle);
 
             // assign color to priority column
             priorityColorer.priorityClassAssigner(task);
         }
     }
-    buttonsAdder(task, project) {
+    buttonsAdder(task, project, oldTitle) {
         let t_titleNoSpaces = task.title.replaceAll(' ', '_');
         let taskRow = document.querySelector(`#task_${t_titleNoSpaces}`);
         let buttonsCell = taskRow.children[taskRow.children.length - 1];
@@ -144,26 +164,29 @@ export default class TaskEditor {
         tooltipOperator.tooltipForComplete(task);
 
         // remove old task in localStorage
+        console.log(`local Storage before removing old task:`);
+        console.log(localStorage.tasks);
         let localTasksArray = localStorage.tasks.split('|');
-        let oldTaskIndex;
         for (let i = 0; i < localTasksArray.length; i++) {
             let retrievedTaskObject = JSON.parse(localTasksArray[i]);
-            if (retrievedTaskObject.title == task.title) {
-                oldTaskIndex = i;
+            console.log(`Checking ${retrievedTaskObject.title}`);
+            if (retrievedTaskObject.title == oldTitle) {
+                console.log(`Found the old task! It's ${retrievedTaskObject.title}!`);
                 localTasksArray.splice(i, 1);
                 break;
             }
         }
         localStorage.tasks = localTasksArray.join('|');
+        console.log(`local Storage after removing old task:`);
+        console.log(localStorage.tasks);
 
         // insert task into localStorage
-        task.stringified = JSON.stringify(task);
         let existingTasks;
         if (localStorage.tasks) {
             existingTasks = localStorage.tasks;
-            localStorage.tasks = existingTasks + '|' + task.stringified;
+            localStorage.tasks = existingTasks + '|' + JSON.stringify(task);
         } else {
-            localStorage.tasks = task.stringified;
+            localStorage.tasks = JSON.stringify(task);
         }
     }
 }

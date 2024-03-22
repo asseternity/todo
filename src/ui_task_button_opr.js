@@ -23,13 +23,26 @@ export default class TaskButtonOperator {
         // limits checking
         let specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
         let titleContainsSpecialCharacters = specialCharacters.test(title);
-        if (title == null || title == '') {
+        let pastTasks = localStorage.tasks;
+        let pastTasksArray = pastTasks ? pastTasks.split('|') : [];
+        let titleTaken = false;
+        for (let i = 0; i < pastTasksArray.length; i++) {
+            let retrievedTaskObject = JSON.parse(pastTasksArray[i]);
+            if (title == retrievedTaskObject.title) {
+                titleTaken = true;
+                }
+            }
+        if (titleTaken) {
+            alert('Cannot have two tasks with the same title.');
+        } else if (title == null || title == '') {
             alert('The new task must have a name.');
         } else if (priority == null || priority == '') {
             alert('Please assign a task priority.');
         }
         else if (titleContainsSpecialCharacters) {
             alert('Task name may only contain letters, numbers and spaces.');
+        } else if (priority < 1 || priority > 3) {
+            alert('Priority level must be set between 1 and 3.');
         } else {        
             // reset data
             formRow.querySelector(`input[name="priorityInput"]`).value = '';
@@ -39,7 +52,7 @@ export default class TaskButtonOperator {
             
             // create task and display it
             let correctProject = project.title;
-            let task = taskCreator.newTask(title, description, dueDate, priority, correctProject);
+            let task = taskCreator.newTask(title, description, dueDate, priority, false, correctProject);
             taskRowCreator.makeTaskRow(task, project);
 
             // assign color to priority column
@@ -49,13 +62,12 @@ export default class TaskButtonOperator {
             assigner.assignTask(project, task);
 
             // localStorage
-            task.stringified = JSON.stringify(task);
             let existingTasks;
             if (localStorage.tasks) {
                 existingTasks = localStorage.tasks;
-                localStorage.tasks = existingTasks + '|' + task.stringified;
+                localStorage.tasks = existingTasks + '|' + JSON.stringify(task);
             } else {
-                localStorage.tasks = task.stringified;
+                localStorage.tasks = JSON.stringify(task);
             }
         }
     }

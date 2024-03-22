@@ -58,7 +58,11 @@ export default class TaskRowCreator {
         let editButton = document.createElement('button');
         let completeButton = document.createElement('button');
         editButton.textContent = '✎';
-        completeButton.textContent = '✓';
+        if (task.isComplete == false) {
+            completeButton.textContent = '✓';
+        } else {
+            completeButton.textContent = '✗';
+        }
         taskRowButtons.appendChild(editButton);
         taskRowButtons.appendChild(completeButton);
 
@@ -78,7 +82,11 @@ export default class TaskRowCreator {
         editButton.addEventListener('click', () => taskEditor.editButtonOperator(task, project));
 
         // Complete Tasks
-        completeButton.addEventListener('click', () => taskCompleter.completeTask(task, project));
+        if (task.isComplete == false) {
+            completeButton.addEventListener('click', () => taskCompleter.completeTask(task, project));
+        } else {
+            completeButton.addEventListener('click', () => taskCompleter.unCompleteTask(task, project));
+        }
 
         // Insert taskRow after correct projectRow
         projectRow.insertAdjacentElement('afterend', taskRow);

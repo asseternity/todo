@@ -12,13 +12,12 @@ export default class ProjectButtonOperator {
         rowCreator.makeFormRow(project);
 
         // localStorage
-        project.stringified = JSON.stringify(project);
         let existingProjects;
         if (localStorage.projects) {
              existingProjects = localStorage.projects;
-             localStorage.projects = existingProjects + '|' + project.stringified;
+             localStorage.projects = existingProjects + '|' + JSON.stringify(project);
         } else {
-            localStorage.projects = project.stringified;
+            localStorage.projects = JSON.stringify(project);
         }
     }
 }
