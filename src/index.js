@@ -5,6 +5,8 @@ import TaskCreator from './sm_task_creator';
 import RowCreator from './ui_row_creator';
 import TaskRowCreator from './ui_task_row_creator';
 import PriorityColorer from './ui_priority_colorer';
+import BackgroundDrawer from './ui_bg_drawer';
+import DialogMaker from './ui_dialog_maker';
 import './styles.css';
 
 // initialize instances
@@ -14,10 +16,13 @@ let taskCreator = new TaskCreator();
 let rowCreator = new RowCreator();
 let taskRowCreator = new TaskRowCreator();
 let priorityColorer = new PriorityColorer();
+let backgroundDrawer = new BackgroundDrawer();
+let dialogMaker = new DialogMaker();
 
 // testing
+dialogMaker.createProjectDialog();
 let projectButton = document.querySelector('#btn_createNewProject');
-projectButton.addEventListener('click', projectButtonOperator.createNewProjectWithUI);
+projectButton.addEventListener('click', projectButtonOperator.createNewProjectWithDialog);
 
 // retrieving localStorage for projects
 let pastProjects = localStorage.projects;
@@ -29,6 +34,10 @@ for (let i = 0; i < pastProjectsArray.length; i++) {
     rowCreator.makeProjectRow(newProjectObject);
     rowCreator.makeFormRow(newProjectObject);
     projectObjectsArray.push(newProjectObject);
+}
+if (pastProjectsArray.length == 0) {
+    // draw background
+    backgroundDrawer.drawBackground();
 }
 
 // retrieve localStorage for tasks

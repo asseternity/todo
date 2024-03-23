@@ -112,6 +112,7 @@ nav {
     display: flex;
     flex-direction: column;
     padding: 5px;
+    position: relative;
 }
 
 .projectRow {
@@ -172,4 +173,39 @@ nav {
 
 .centered {
     text-align: center;
+}
+
+.backgroundImage {
+    height: 200px;
+    margin-top: -20px;
+}
+
+.popup_project {
+    position: absolute;
+    background-color: var(--offWhite);
+    border: 6px solid var(--backgroundBlue);
+    border-radius: 6px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+}
+
+.popup_project p {
+    padding: 0;
+    margin: 0;
+}
+
+.popup_project input {
+    background-color: var(--mainBlue);
+    border: none;
+    font-size: 150%;
+}
+
+.popup_project input[type="submit"]:hover {
+    background-color: var(--lightGrey);
 }

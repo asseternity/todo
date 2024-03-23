@@ -18,7 +18,7 @@ export default class TaskCompleter {
 
         // remove the completeTask button
         let buttonsCell = taskRow.children[taskRow.children.length - 1];
-        buttonsCell.removeChild(buttonsCell.children[1]);
+        buttonsCell.removeChild(buttonsCell.children[2]);
 
         // remove old task in localStorage
         let localTasksArray = localStorage.tasks.split('|');
@@ -54,7 +54,7 @@ export default class TaskCompleter {
         taskRow.classList.remove('completedTask');
         task.isComplete = false;
         let buttonsCell = taskRow.children[taskRow.children.length - 1];
-        buttonsCell.removeChild(buttonsCell.children[1]);
+        buttonsCell.removeChild(buttonsCell.children[2]);
 
         // remove old task in localStorage
         let localTasksArray = localStorage.tasks.split('|');

@@ -23,8 +23,12 @@ module.exports = {
             },
             {
                 test: /\.(woff|woff2|eot|tts|otf)$/i,
-                use: 'asset/resource',
+                type: 'asset/resource',
             },
+            {
+                test: /\.(png|jpg|jpeg|gif)$/i,
+                type: 'asset/resource',
+            }
         ],
     },
 };

@@ -1,10 +1,12 @@
 import TaskCompleter from "./ui_task_completer";
 import TooltipOperator from "./ui_tooltip_operator";
 import PriorityColorer from "./ui_priority_colorer";
+import TaskDeleter from "./sm_task_deleter";
 
 let taskCompleter = new TaskCompleter();
 let tooltipOperator = new TooltipOperator();
 let priorityColorer = new PriorityColorer();
+let taskDeleter = new TaskDeleter();
 
 // external libraries
 import { differenceInDays } from "date-fns";
@@ -90,15 +92,16 @@ export default class TaskEditor {
             }
         if (titleTaken) {
             alert('Cannot have two tasks with the same title.');
-        } else if (title == null || title == '') {
-            alert('The new task must have a name.');
+        } else if (title == null || title == '' || title.length > 25) {
+            alert('The new task must have a name under 25 characters.');
         } else if (priority == null || priority == '') {
             alert('Please assign a task priority.');
-        }
-        else if (titleContainsSpecialCharacters) {
+        } else if (titleContainsSpecialCharacters) {
             alert('Task name may only contain letters, numbers and spaces.');
         } else if (priority < 1 || priority > 3) {
             alert('Priority level must be set between 1 and 3.');
+        } else if (description.length > 65) {
+            alert('The description must be under 65 characters.')
         } else {
             // change task data
             task.priority = priority;
@@ -154,31 +157,32 @@ export default class TaskEditor {
         editButton.textContent = '✎';
         completeButton.textContent = '✓';
         buttonsCell.appendChild(editButton);
+
+        // delete button
+        let deleteButton = document.createElement('button');
+        deleteButton.textContent = `🗑`;
+        buttonsCell.appendChild(deleteButton);
         buttonsCell.appendChild(completeButton);
 
         editButton.addEventListener('click', () => this.editButtonOperator(task, project));
         completeButton.addEventListener('click', () => taskCompleter.completeTask(task, project));
+        deleteButton.addEventListener('click', () => taskDeleter.deleteTask(task));
 
         // Call tooltip makers
         tooltipOperator.tooltipForEdit(task);
         tooltipOperator.tooltipForComplete(task);
+        tooltipOperator.tooltipForDelete(task);
 
         // remove old task in localStorage
-        console.log(`local Storage before removing old task:`);
-        console.log(localStorage.tasks);
         let localTasksArray = localStorage.tasks.split('|');
         for (let i = 0; i < localTasksArray.length; i++) {
             let retrievedTaskObject = JSON.parse(localTasksArray[i]);
-            console.log(`Checking ${retrievedTaskObject.title}`);
             if (retrievedTaskObject.title == oldTitle) {
-                console.log(`Found the old task! It's ${retrievedTaskObject.title}!`);
                 localTasksArray.splice(i, 1);
                 break;
             }
         }
         localStorage.tasks = localTasksArray.join('|');
-        console.log(`local Storage after removing old task:`);
-        console.log(localStorage.tasks);
 
         // insert task into localStorage
         let existingTasks;

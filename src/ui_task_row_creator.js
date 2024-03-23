@@ -1,10 +1,12 @@
 import TaskEditor from './ui_task_editor';
 import TaskCompleter from './ui_task_completer';
 import TooltipOperator from './ui_tooltip_operator';
+import TaskDeleter from './sm_task_deleter';
 
 let taskEditor = new TaskEditor();
 let taskCompleter = new TaskCompleter();
 let tooltipOperator = new TooltipOperator();
+let taskDeleter = new TaskDeleter();
 
 // external libraries
 import { differenceInDays } from "date-fns";
@@ -64,6 +66,12 @@ export default class TaskRowCreator {
             completeButton.textContent = '✗';
         }
         taskRowButtons.appendChild(editButton);
+
+        // delete button
+        let deleteButton = document.createElement('button');
+        deleteButton.textContent = `🗑`;
+        taskRowButtons.appendChild(deleteButton);
+
         taskRowButtons.appendChild(completeButton);
 
         // Append elements to taskRow
@@ -88,6 +96,9 @@ export default class TaskRowCreator {
             completeButton.addEventListener('click', () => taskCompleter.unCompleteTask(task, project));
         }
 
+        // Delete Tasks event
+        deleteButton.addEventListener('click', () => taskDeleter.deleteTask(task));
+
         // Insert taskRow after correct projectRow
         projectRow.insertAdjacentElement('afterend', taskRow);
 
@@ -98,5 +109,6 @@ export default class TaskRowCreator {
         // Call tooltip makers
         tooltipOperator.tooltipForEdit(task);
         tooltipOperator.tooltipForComplete(task);
+        tooltipOperator.tooltipForDelete(task);
     }
 }
