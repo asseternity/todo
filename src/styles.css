@@ -260,7 +260,14 @@ nav {
     background-color: var(--lightGrey);
 }
 
-@media screen and (min-width:651px) {
-    #container {
+@media screen and (max-width:651px) {
+    .formRow td {
+        background-color: var(--lightGrey);
+    }
+    .formRow input {
+        border: none;
+    }
+    .formRow button:hover {
+        background-color: var(--lightGrey);
     }
 }
