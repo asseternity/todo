@@ -68,8 +68,6 @@
     // fix styles with rows
     // responsive - right now, everything is super small!
     // by clicking on project names they collapse and expand
-
-// To Do:
     // readme with a link
 
 // Future
