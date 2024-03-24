@@ -6,6 +6,19 @@
     --backgroundBlue: #2975A7;
 }
 
+input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /* Add any other styles you want to reset */
+    border: none;
+    outline: none;
+    /* Additional styles to match your design */
+    background-color: transparent; /* or any other desired color */
+    color: inherit; /* or any other desired color */
+    /* Add more styles as needed */
+  }
+
 @font-face {
     font-family: 'Graduate';
     src: url('./Graduate-Regular.ttf') format('truetype');
@@ -15,6 +28,10 @@
 
 button {
     font-family: 'Graduate';
+}
+
+.unicode {
+    font-family: 'Segoe UI Symbol', sans-serif;
 }
 
 input[type="submit"] {

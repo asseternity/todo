@@ -99,6 +99,11 @@ export default class TaskRowCreator {
         // Delete Tasks event
         deleteButton.addEventListener('click', () => taskDeleter.deleteTask(task));
 
+        // assign class
+        editButton.classList.add('unicode');
+        completeButton.classList.add('unicode');
+        deleteButton.classList.add('unicode');
+
         // Insert taskRow after correct projectRow
         projectRow.insertAdjacentElement('afterend', taskRow);
 

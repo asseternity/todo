@@ -168,6 +168,11 @@ export default class TaskEditor {
         completeButton.addEventListener('click', () => taskCompleter.completeTask(task, project));
         deleteButton.addEventListener('click', () => taskDeleter.deleteTask(task));
 
+        // assign class
+        editButton.classList.add('unicode');
+        completeButton.classList.add('unicode');
+        deleteButton.classList.add('unicode');
+
         // Call tooltip makers
         tooltipOperator.tooltipForEdit(task);
         tooltipOperator.tooltipForComplete(task);
