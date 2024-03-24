@@ -63,16 +63,43 @@
     // add text - Click on add project (hand-drawn arrow to the button)
     // limit on number of characters in task / project title and task description
     // new project creation window - dialog? (+limit on project title name)
-
-
-// To Do:
     // delete tasks
     // delete projects (and all tasks thereof)
-    // by clicking on project names they collapse and expand
+    // fix styles with rows
+
+// To Do:
     // responsive - right now, everything is super small!
+    // by clicking on project names they collapse and expand
     // readme with a link
 
 // Future
     // nav buttons --- only show completed / show all / only show high priority
     // sort by priority
     // sort by date ( --- *MAYBE BUTTONS ON TABLE HEADERS!* ) (*but these two --- within projects!*)
+
+    
+html, body {
+    margin: 0;
+    height: 100%;
+    color: white;
+    font-family: 'VT';
+    font-size: 110%;
+}
+
+.mainMenuContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.mainMenu button {
+    font-size: 140%;
+}
+
+.container {
+    min-height: 100%;
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr 2fr 3fr;
+    grid-template-rows: 70px 450px 1fr 70px;
+}

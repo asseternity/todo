@@ -6,10 +6,11 @@
     --backgroundBlue: #2975A7;
 }
 
-html, body {
-    margin: 0;
-    height: 100%;
+@font-face {
     font-family: 'Graduate';
+    src: url('./Graduate-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
 }
 
 button {
@@ -20,18 +21,18 @@ input[type="submit"] {
     font-family: 'Graduate';
 }
 
-@font-face {
+html, body {
+    margin: 0;
+    height: 100%;
     font-family: 'Graduate';
-    src: url('./Graduate-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
+    overflow-y: hidden;
 }
 
 #container {
+    height: 100%;
     display: grid;
     grid-template-columns: 80px auto;
     grid-template-rows: 80px auto;
-    min-height: 100%;
 }
 
 header {
@@ -90,9 +91,39 @@ td button {
     height: 100%;   
 }
 
-td input {
+input, input[type="date"], textarea, select {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    background-color: transparent;
+    appearance: none;
+}
+
+td input, input[type="date"], input[type="submit"] {
+    box-sizing: border-box;
+    height: 20px;
     width: 100%;
     font-family: 'Graduate';
+    border: 1px solid var(--darkGrey);
+    margin: 0;
+    padding: 0;
+    padding-left: 2px;
+}
+
+td input:focus {
+    border: 1px solid black;
+    border-radius: none;
+    background-color: var(--mainBlue);
+}
+
+td input[type="submit"]:hover {
+    background-color: var(--mainBlue);
+    border-color: var(--mainBlue);
 }
 
 td button:hover {
@@ -118,6 +149,7 @@ nav {
 .projectRow {
     width: 100%;
     background-color: var(--backgroundBlue);
+    height:35px;
 }
 
 .projectRow td {
@@ -204,8 +236,14 @@ nav {
     background-color: var(--mainBlue);
     border: none;
     font-size: 150%;
+    height: 100%;
 }
 
 .popup_project input[type="submit"]:hover {
     background-color: var(--lightGrey);
+}
+
+@media screen and (min-width:651px) {
+    #container {
+    }
 }

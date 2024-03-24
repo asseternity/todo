@@ -192,5 +192,7 @@ export default class TaskEditor {
         } else {
             localStorage.tasks = JSON.stringify(task);
         }
+
+        console.log(project.tasks);
     }
 }

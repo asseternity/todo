@@ -1,8 +1,10 @@
 import TaskButtonOperator from "./ui_task_button_opr";
 import HeaderCreator from "./ui_header_creator";
+import ProjectDeleter from "./sm_project_deleter";
 
 let taskButtonOperator = new TaskButtonOperator();
 let headerCreator = new HeaderCreator();
+let projectDeleter = new ProjectDeleter();
 
 export default class RowCreator {
     makeProjectRow(project) {
@@ -12,11 +14,21 @@ export default class RowCreator {
         }
         let projectRow = document.createElement('tr');
         let projectData = document.createElement('td');
-        projectData.setAttribute('colspan', 5);
+        projectData.setAttribute('colspan', 4);
         projectRow.classList.add('projectRow');
         projectData.textContent = project.title;
         table.appendChild(projectRow);
         projectRow.appendChild(projectData);
+
+        // delete button
+        let projectButtonCell = document.createElement('td');
+        projectRow.appendChild(projectButtonCell);
+        let deleteButton = document.createElement('button');
+        deleteButton.textContent = `🗑`;
+        projectButtonCell.appendChild(deleteButton);
+
+        // deletion event listener
+        deleteButton.addEventListener('click', () => projectDeleter.deleteProject(project));
 
         // Give ID
         let p_titleNoSpaces = project.title.replaceAll(' ', '_');
