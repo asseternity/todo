@@ -1,10 +1,12 @@
 import TaskButtonOperator from "./ui_task_button_opr";
 import HeaderCreator from "./ui_header_creator";
 import ProjectDeleter from "./sm_project_deleter";
+import ProjectCollapser from "./sm_project_collapser";
 
 let taskButtonOperator = new TaskButtonOperator();
 let headerCreator = new HeaderCreator();
 let projectDeleter = new ProjectDeleter();
+let projectCollapser = new ProjectCollapser();
 
 export default class RowCreator {
     makeProjectRow(project) {
@@ -29,6 +31,14 @@ export default class RowCreator {
 
         // deletion event listener
         deleteButton.addEventListener('click', () => projectDeleter.deleteProject(project));
+
+        // collapse button
+        let collapseButton = document.createElement('button');
+        collapseButton.textContent = `⮟`;
+        projectButtonCell.appendChild(collapseButton);
+
+        // collapse event listener
+        collapseButton.addEventListener('click', () => projectCollapser.collapseProject(project));
 
         // Give ID
         let p_titleNoSpaces = project.title.replaceAll(' ', '_');

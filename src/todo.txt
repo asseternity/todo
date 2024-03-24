@@ -66,10 +66,10 @@
     // delete tasks
     // delete projects (and all tasks thereof)
     // fix styles with rows
-
-// To Do:
     // responsive - right now, everything is super small!
     // by clicking on project names they collapse and expand
+
+// To Do:
     // readme with a link
 
 // Future

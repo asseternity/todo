@@ -36,7 +36,9 @@ export default class ProjectButtonOperator {
             project = projectCreator.newProject(projectTitle);
             console.log(projectTitle);
             let bg = document.querySelector('.backgroundContainer');
-            bg.style.visibility = 'hidden';
+            if (bg !== null) {
+                bg.style.visibility = 'hidden';
+            }
             rowCreator.makeProjectRow(project);
             rowCreator.makeFormRow(project);
 

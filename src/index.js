@@ -7,6 +7,7 @@ import TaskRowCreator from './ui_task_row_creator';
 import PriorityColorer from './ui_priority_colorer';
 import BackgroundDrawer from './ui_bg_drawer';
 import DialogMaker from './ui_dialog_maker';
+import Assigner from './sm_task_assigner';
 import './styles.css';
 
 // initialize instances
@@ -18,6 +19,7 @@ let taskRowCreator = new TaskRowCreator();
 let priorityColorer = new PriorityColorer();
 let backgroundDrawer = new BackgroundDrawer();
 let dialogMaker = new DialogMaker();
+let assigner = new Assigner();
 
 // testing
 dialogMaker.createProjectDialog();
@@ -49,6 +51,7 @@ if (pastTasksArray.length > 0) {
         let newTaskObject = taskCreator.newTask(retrievedTaskObject.title, retrievedTaskObject.description, retrievedTaskObject.dueDate, retrievedTaskObject.priority, retrievedTaskObject.isComplete, retrievedTaskObject.partOfProject);
         let correctProject = projectObjectsArray.find(i => i.title == newTaskObject.partOfProject);
         taskRowCreator.makeTaskRow(newTaskObject, correctProject);
+        assigner.assignTask(correctProject, newTaskObject);
         priorityColorer.priorityClassAssigner(newTaskObject);
         if (newTaskObject.isComplete == true) {
             let t_titleNoSpaces = newTaskObject.title.replaceAll(' ', '_');
